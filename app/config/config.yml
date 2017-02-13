@@ -1,0 +1,42 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: services.yml }
+
+app:
+    commercetools_client:
+        id: '%commercetools.client_id%'
+        project: '%commercetools.project%'
+        secret: '%commercetools.client_secret%'
+        scope: '%commercetools.scope%'
+    orders:
+        with_pagination: true
+
+framework:
+    secret: '%secret%'
+
+monolog:
+    channels: ['bh.import.price', 'event']
+    handlers:
+        bh_price_import_log:
+            max_files: 10
+            type: stream
+            path: "%kernel.logs_dir%/import/price/%kernel.environment%.log"
+            level: debug
+            channels: ['bh.import.price']
+
+        syslog_handler:
+            channels: ['bh.import.price']
+            type: syslog
+            # log error-level messages and higher
+            level: error
+
+oneup_flysystem:
+    adapters:
+        app.filesystem.adapter:
+            local:
+                directory: '%kernel.root_dir%/../var/export'
+
+    filesystems:
+        app:
+            adapter: 'app.filesystem.adapter'
+            alias: 'app.filesystem'

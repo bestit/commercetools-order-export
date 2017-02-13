@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<order>
+    <datum>{{ order.getCreatedAt().format('d.m.Y H:i:s') }}</datum>
+    <kkdnr>{{ customer.getCustomerNumber() }}</kkdnr>
+    <kknam1>{{ order.getBillingAddress().getSalutation() }} {{ order.getBillingAddress().getTitle() }} {{ order.getBillingAddress().getFirstName() }} {{ order.getBillingAddress().getLastName() }}</kknam1>
+    <ctp-bestellnr>{{ order.getId() }}</ctp-bestellnr>
+    <bestelltxt>Lorem Ipsum</bestelltxt>
+    <va-nr>1</va-nr>
+    <vart>90</vart>
+    <kzab>37</kzab>
+    <positions>
+        {% for no, lineItem in order.getLineItems() %}
+            <position>
+                <posnr>{{ loop.index }}</posnr>
+                <aartnr>{{ lineItem.getVariant().getSku() }}</aartnr>
+                <abez>{{ lineItem.getName().getLocalized() }}</abez>
+                <menge>{{ lineItem.getQuantity() }}</menge>
+                <preis>{{ lineItem.getTotalPrice().getCentAmount() / 100 }}</preis>
+                <kd-arttxt>{{ lineItem.getQuantity() }}</kd-arttxt>
+            </position>
+        {% endfor %}
+    </positions>
+</order>
