@@ -43,6 +43,14 @@ class Configuration implements ConfigurationInterface
                                 'Should we use a paginated list of orders (or is the result list changing by "itself"?)'
                             )
                         ->end()
+                        ->scalarNode('file_template')->defaultValue('detail.xml.twig')->end()
+                        ->scalarNode('name_scheme')
+                            ->defaultValue('order_{{id}}_{{YmdHis}}.xml')
+                            ->info(
+                                'Provide an order field name or a format string for the date function enclosed ' .
+                                'with {{ and }}.'
+                            )
+                        ->end()
                     ->end()
                 ->end();
 

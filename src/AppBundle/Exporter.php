@@ -27,6 +27,18 @@ class Exporter
     private $filesystem = null;
 
     /**
+     * Which tenplate should be used for rendering.
+     * @var string
+     */
+    private $fileTemplate = '';
+
+    /**
+     * The generator for order names.
+     * @var OrderNameGenerator
+     */
+    private $orderNameGenerator = null;
+
+    /**
      * The used view.
      * @var Twig_Environment
      */
@@ -37,15 +49,20 @@ class Exporter
      * @param CustomerFactory $customerFactory
      * @param FilesystemInterface $filesystem
      * @param Twig_Environment $view
+     * @param OrderNameGenerator $orderNameGenerator
      */
     public function __construct(
         CustomerFactory $customerFactory,
         FilesystemInterface $filesystem,
+        string $fileTemplate,
+        OrderNameGenerator $orderNameGenerator,
         Twig_Environment $view
     ) {
         $this
             ->setCustomerFactory($customerFactory)
             ->setFilesystem($filesystem)
+            ->setFileTemplate($fileTemplate)
+            ->setOrderNameGenerator($orderNameGenerator)
             ->setView($view);
     }
 
@@ -63,15 +80,15 @@ class Exporter
 
         $bar->start(count($orderVisitor));
 
-        foreach ($orderVisitor as $order) {
+        foreach ($orderVisitor() as $num => $order) {
             set_time_limit(0);
 
             $bar->advance();
 
             $written = $filesystem->put(
-                sprintf('order_%s.xml', $order->getId()),
+                $this->getOrderNameGenerator()->getOrderName($order),
                 $view->render(
-                    'detail.xml.twig',
+                    $this->getFileTemplate(),
                     [
                         'order' => $order,
                         'customer' => $customerFactory->getCustomer($order->getCustomerId()),
@@ -104,6 +121,24 @@ class Exporter
     }
 
     /**
+     * Returns the template which should render the order.
+     * @return string
+     */
+    private function getFileTemplate(): string
+    {
+        return $this->fileTemplate;
+    }
+
+    /**
+     * Returns the generator for order names.
+     * @return OrderNameGenerator
+     */
+    private function getOrderNameGenerator(): OrderNameGenerator
+    {
+        return $this->orderNameGenerator;
+    }
+
+    /**
      * Returns the view class.
      * @return Twig_Environment
      */
@@ -132,6 +167,30 @@ class Exporter
     private function setFilesystem(FilesystemInterface $filesystem): Exporter
     {
         $this->filesystem = $filesystem;
+        return $this;
+    }
+
+    /**
+     * Sets the template which should render the order.
+     * @param string $fileTemplate
+     * @return Exporter
+     */
+    public function setFileTemplate(string $fileTemplate): Exporter
+    {
+        $this->fileTemplate = $fileTemplate;
+
+        return $this;
+    }
+
+    /**
+     * Sets the generator for order names.
+     * @param OrderNameGenerator $orderNameGenerator
+     * @return Exporter
+     */
+    private function setOrderNameGenerator(OrderNameGenerator $orderNameGenerator): Exporter
+    {
+        $this->orderNameGenerator = $orderNameGenerator;
+
         return $this;
     }
 

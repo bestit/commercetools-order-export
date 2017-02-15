@@ -22,6 +22,8 @@ services:
         arguments:
             - '@app.customer_factory'
             - '@app.filesystem'
+            - '%app.orders.file_template%'
+            - '@app.order_name_generator'
             - '@twig'
 
     app.order_visitor:
@@ -29,6 +31,11 @@ services:
         arguments:
             - '@app.commercetools.client'
             - '%app.orders.with_pagination%'
+
+    app.order_name_generator:
+        class: AppBundle\OrderNameGenerator
+        arguments:
+            - '%app.orders.name_scheme%'
 
     app.progress_bar_factory:
         class: AppBundle\ProgressBarFactory

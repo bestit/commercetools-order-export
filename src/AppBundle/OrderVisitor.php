@@ -7,7 +7,7 @@ use Commercetools\Core\Model\Order\OrderCollection;
 use Commercetools\Core\Request\Orders\OrderQueryRequest;
 use Commercetools\Core\Response\PagedQueryResponse;
 use Countable;
-use Iterator;
+use Generator;
 
 /**
  * Iterates over the complete found list.
@@ -15,7 +15,7 @@ use Iterator;
  * @package AppBundle
  * @version $id$
  */
-class OrderVisitor implements Countable, Iterator
+class OrderVisitor implements Countable
 {
     /**
      * The used client.
@@ -42,6 +42,12 @@ class OrderVisitor implements Countable, Iterator
     protected $orderQuery = null;
 
     /**
+     * The total count of found orders.
+     * @var int
+     */
+    protected $totalCount = -1;
+
+    /**
      * Is a pagination used?
      * @var bool
      */
@@ -59,6 +65,15 @@ class OrderVisitor implements Countable, Iterator
     }
 
     /**
+     * Yields the orders.
+     * @return Generator
+     */
+    public function __invoke()
+    {
+        return $this->yieldOrders();
+    }
+
+    /**
      * Count elements of an object
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
@@ -69,18 +84,7 @@ class OrderVisitor implements Countable, Iterator
      */
     public function count()
     {
-        return $this->getLastResponse()->getTotal();
-    }
-
-    /**
-     * Return the current element
-     * @link http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
-     * @since 5.0.0
-     */
-    public function current()
-    {
-        return $this->getOrderCollection()->current();
+        return $this->getTotalCount();
     }
 
     /**
@@ -96,13 +100,35 @@ class OrderVisitor implements Countable, Iterator
      * Returns the last order fetching response.
      * @return PagedQueryResponse
      */
-    public function getLastResponse(): PagedQueryResponse
+    private function getLastResponse(): PagedQueryResponse
     {
         if (!$this->lastResponse) {
             $this->loadOrderCollection();
         }
 
         return $this->lastResponse;
+    }
+
+    /**
+     * Returns the next order collection or void.
+     * @param int $renderedArticleCount How many articles are rendered allready.
+     * @return OrderCollection|void
+     */
+    private function getNextOrderCollection(int $renderedArticleCount)
+    {
+        $orderCollection = null;
+
+        if ((!$withPagination = $this->withPagination()) || ($renderedArticleCount < $this->count())) {
+            if ($withPagination) {
+                $this->getOrderQuery()->offset($renderedArticleCount);
+            }
+
+            $this->loadOrderCollection();
+
+            $orderCollection = $this->getOrderCollection();
+        }
+
+        return $orderCollection;
     }
 
     /**
@@ -122,7 +148,7 @@ class OrderVisitor implements Countable, Iterator
      * Returns the order query.
      * @return OrderQueryRequest
      */
-    public function getOrderQuery(): OrderQueryRequest
+    private function getOrderQuery(): OrderQueryRequest
     {
         if (!$this->orderQuery) {
             $this->loadOrderQuery();
@@ -132,14 +158,16 @@ class OrderVisitor implements Countable, Iterator
     }
 
     /**
-     * Return the key of the current element
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
-     * @since 5.0.0
+     * Returns the total count of found orders.
+     * @return int
      */
-    public function key()
+    private function getTotalCount(): int
     {
-        return $this->getOrderCollection()->key();
+        if ($this->totalCount === -1) {
+            $this->setTotalCount($this->getLastResponse()->getTotal());
+        }
+
+        return $this->totalCount;
     }
 
     /**
@@ -164,28 +192,6 @@ class OrderVisitor implements Countable, Iterator
         $this->setOrderQuery(new OrderQueryRequest());
 
         return $this;
-    }
-
-    /**
-     * Move forward to next element
-     * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
-     */
-    public function next()
-    {
-        return $this->getOrderCollection()->next();
-    }
-
-    /**
-     * Rewind the Iterator to the first element
-     * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
-     */
-    public function rewind()
-    {
-        return $this->getOrderCollection()->rewind();
     }
 
     /**
@@ -237,29 +243,15 @@ class OrderVisitor implements Countable, Iterator
     }
 
     /**
-     * Checks if current position is valid
-     * @link http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     * Returns true on success or false on failure.
-     * @since 5.0.0
+     * Sets the total count of found orders.
+     * @param int $totalCount
+     * @return OrderVisitor
      */
-    public function valid(): bool
+    private function setTotalCount(int $totalCount): OrderVisitor
     {
-        $isValid = $this->getOrderCollection()->valid();
+        $this->totalCount = $totalCount;
 
-        if (!$isValid) {
-            // TODO Check count vs. total
-            if (!$this->withPagination()) {
-                // TODO Change Query
-
-                // Load next list part.
-                $this->loadOrderCollection();
-
-                $isValid = $this->getOrderCollection()->valid();
-            }
-        }
-
-        return $isValid;
+        return $this;
     }
 
     /**
@@ -276,5 +268,25 @@ class OrderVisitor implements Countable, Iterator
         }
 
         return $oldStatus;
+    }
+
+    /**
+     * Yields all found orders.
+     * @return Generator
+     */
+    public function yieldOrders()
+    {
+        $usedIndex = 0;
+        $orderCollection = $this->getOrderCollection();
+
+        while ($orderCollection && count($orderCollection)) {
+            foreach ($orderCollection as $order) {
+                set_time_limit(0);
+
+                yield $usedIndex++ => $order;
+            }
+
+            $orderCollection = $this->getNextOrderCollection($usedIndex);
+        }
     }
 }
