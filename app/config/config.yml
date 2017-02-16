@@ -10,6 +10,8 @@ app:
         scope: '%commercetools.scope%'
     orders:
         with_pagination: true
+        default_where:
+            - 'syncInfo is empty'
 
 framework:
     secret: '%secret%'

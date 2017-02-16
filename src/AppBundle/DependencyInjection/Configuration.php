@@ -43,6 +43,13 @@ class Configuration implements ConfigurationInterface
                                 'Should we use a paginated list of orders (or is the result list changing by "itself"?)'
                             )
                         ->end()
+                        ->arrayNode('default_where')
+                            ->info(
+                                'Add where clauses for orders: ' .
+                                    'https://dev.commercetools.com/http-api-projects-orders.html#query-orders'
+                            )
+                            ->prototype('scalar')->end()
+                        ->end()
                         ->scalarNode('file_template')->defaultValue('detail.xml.twig')->end()
                         ->scalarNode('name_scheme')
                             ->defaultValue('order_{{id}}_{{YmdHis}}.xml')

@@ -21,6 +21,7 @@ services:
         class: AppBundle\Exporter
         arguments:
             - '@app.customer_factory'
+            - '@event_dispatcher'
             - '@app.filesystem'
             - '%app.orders.file_template%'
             - '@app.order_name_generator'
@@ -30,7 +31,10 @@ services:
         class: AppBundle\OrderVisitor
         arguments:
             - '@app.commercetools.client'
+            - '@event_dispatcher'
             - '%app.orders.with_pagination%'
+        calls:
+            - ['setDefaultWhere', ['%app.orders.default_where%']]
 
     app.order_name_generator:
         class: AppBundle\OrderNameGenerator

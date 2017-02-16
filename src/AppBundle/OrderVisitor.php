@@ -5,9 +5,12 @@ namespace AppBundle;
 use Commercetools\Core\Client;
 use Commercetools\Core\Model\Order\OrderCollection;
 use Commercetools\Core\Request\Orders\OrderQueryRequest;
+use Commercetools\Core\Response\ErrorResponse;
 use Commercetools\Core\Response\PagedQueryResponse;
 use Countable;
 use Generator;
+use RuntimeException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Iterates over the complete found list.
@@ -22,6 +25,18 @@ class OrderVisitor implements Countable
      * @var Client
      */
     private $client = null;
+
+    /**
+     * The default where for the order query.
+     * @var array
+     */
+    private $defaultWhere = [];
+
+    /**
+     * The used event dispatcher.
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher = null;
 
     /**
      * The last response for the fetching of orders.
@@ -56,11 +71,14 @@ class OrderVisitor implements Countable
     /**
      * OrderVisitor constructor.
      * @param Client $client
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param bool $withPagination
      */
-    public function __construct(Client $client, bool $withPagination = true)
+    public function __construct(Client $client, EventDispatcherInterface $eventDispatcher, bool $withPagination = true)
     {
         $this
             ->setClient($client)
+            ->setEventDispatcher($eventDispatcher)
             ->withPagination($withPagination);
     }
 
@@ -94,6 +112,24 @@ class OrderVisitor implements Countable
     private function getClient(): Client
     {
         return $this->client;
+    }
+
+    /**
+     * Returns the default where clause for the order query.
+     * @return array
+     */
+    public function getDefaultWhere(): array
+    {
+        return $this->defaultWhere;
+    }
+
+    /**
+     * Returns the event dispatcher.
+     * @return EventDispatcherInterface
+     */
+    private function getEventDispatcher(): EventDispatcherInterface
+    {
+        return $this->eventDispatcher;
     }
 
     /**
@@ -176,7 +212,16 @@ class OrderVisitor implements Countable
      */
     private function loadOrderCollection(): OrderVisitor
     {
-        $this->setLastResponse($this->getClient()->execute($this->getOrderQuery()));
+        $eventDispatcher = $this->getEventDispatcher();
+
+        $response = $this->getClient()->execute($this->getOrderQuery());
+
+        if ($response instanceof ErrorResponse) {
+            throw new RuntimeException($response->getMessage());
+        }
+
+        // TODO Add some events.
+        $this->setLastResponse($response);
 
         $this->setOrderCollection($this->getLastResponse()->toObject());
 
@@ -189,7 +234,15 @@ class OrderVisitor implements Countable
      */
     private function loadOrderQuery(): OrderVisitor
     {
-        $this->setOrderQuery(new OrderQueryRequest());
+        $query = new OrderQueryRequest();
+
+        if ($wheres = $this->getDefaultWhere()) {
+            array_walk($wheres, function (string $where) use ($query) {
+                $query->where($where);
+            });
+        }
+
+        $this->setOrderQuery($query);
 
         return $this;
     }
@@ -202,6 +255,30 @@ class OrderVisitor implements Countable
     private function setClient(Client $client): OrderVisitor
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Sets the default where clause for the order query.
+     * @param array $defaultWhere
+     * @return OrderVisitor
+     */
+    public function setDefaultWhere(array $defaultWhere): OrderVisitor
+    {
+        $this->defaultWhere = $defaultWhere;
+
+        return $this;
+    }
+
+    /**
+     * Sets the used event dispatcher.
+     * @param EventDispatcherInterface $eventDispatcher
+     * @return OrderVisitor
+     */
+    private function setEventDispatcher(EventDispatcherInterface $eventDispatcher): OrderVisitor
+    {
+        $this->eventDispatcher = $eventDispatcher;
 
         return $this;
     }

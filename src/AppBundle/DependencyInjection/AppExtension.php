@@ -54,6 +54,7 @@ class AppExtension extends Extension
             (bool) ( $config['orders']['with_pagination'] ?? true )
         );
 
+        $container->setParameter('app.orders.default_where', $config['orders']['default_where'] ?? []);
         $container->setParameter('app.orders.file_template', $config['orders']['file_template']);
         $container->setParameter('app.orders.name_scheme', $config['orders']['name_scheme']);
     }

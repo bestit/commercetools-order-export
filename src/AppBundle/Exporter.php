@@ -2,8 +2,12 @@
 
 namespace AppBundle;
 
+use AppBundle\Event\EventStore;
+use AppBundle\Event\FinishOrderExportEvent;
+use AppBundle\Event\PrepareOrderExportEvent;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Twig_Environment;
 
 /**
@@ -19,6 +23,12 @@ class Exporter
      * @var CustomerFactory
      */
     private $customerFactory = null;
+
+    /**
+     * The used event dispatcher.
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher = null;
 
     /**
      * The used file system.
@@ -53,6 +63,7 @@ class Exporter
      */
     public function __construct(
         CustomerFactory $customerFactory,
+        EventDispatcherInterface $eventDispatcher,
         FilesystemInterface $filesystem,
         string $fileTemplate,
         OrderNameGenerator $orderNameGenerator,
@@ -60,6 +71,7 @@ class Exporter
     ) {
         $this
             ->setCustomerFactory($customerFactory)
+            ->setEventDispatcher($eventDispatcher)
             ->setFilesystem($filesystem)
             ->setFileTemplate($fileTemplate)
             ->setOrderNameGenerator($orderNameGenerator)
@@ -75,6 +87,7 @@ class Exporter
     public function exportOrders(OrderVisitor $orderVisitor, ProgressBar $bar): bool
     {
         $customerFactory = $this->getCustomerFactory();
+        $eventDispatcher = $this->getEventDispatcher();
         $filesystem = $this->getFilesystem();
         $view = $this->getView();
 
@@ -84,6 +97,8 @@ class Exporter
             set_time_limit(0);
 
             $bar->advance();
+
+            $eventDispatcher->dispatch(EventStore::PRE_ORDER_EXPORT, new PrepareOrderExportEvent($order));
 
             $written = $filesystem->put(
                 $this->getOrderNameGenerator()->getOrderName($order),
@@ -95,6 +110,8 @@ class Exporter
                     ]
                 )
             );
+
+            $eventDispatcher->dispatch(EventStore::POST_ORDER_EXPORT, new FinishOrderExportEvent($order));
         }
 
         $bar->finish();
@@ -109,6 +126,15 @@ class Exporter
     private function getCustomerFactory(): CustomerFactory
     {
         return $this->customerFactory;
+    }
+
+    /**
+     * Returns the event dispatcher.
+     * @return EventDispatcherInterface
+     */
+    private function getEventDispatcher(): EventDispatcherInterface
+    {
+        return $this->eventDispatcher;
     }
 
     /**
@@ -160,6 +186,18 @@ class Exporter
     }
 
     /**
+     * Sets the used event dispatcher.
+     * @param EventDispatcherInterface $eventDispatcher
+     * @return Exporter
+     */
+    private function setEventDispatcher(EventDispatcherInterface $eventDispatcher): Exporter
+    {
+        $this->eventDispatcher = $eventDispatcher;
+
+        return $this;
+    }
+
+    /**
      * Sets the file system.
      * @param FilesystemInterface $filesystem
      * @return Exporter
@@ -175,7 +213,7 @@ class Exporter
      * @param string $fileTemplate
      * @return Exporter
      */
-    public function setFileTemplate(string $fileTemplate): Exporter
+    private function setFileTemplate(string $fileTemplate): Exporter
     {
         $this->fileTemplate = $fileTemplate;
 
