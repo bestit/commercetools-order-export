@@ -29,6 +29,11 @@ class AppExtension extends Extension
 
         $config = $this->processConfiguration(new Configuration(), $configs);
 
+        $container->setAlias(
+            'app.export.filesystem',
+            $config['filesystem']
+        );
+
         $container->setParameter(
             'app.commercetools.client.id',
             (string) @ $config['commercetools_client']['id']

@@ -8,6 +8,7 @@ app:
         project: '%commercetools.project%'
         secret: '%commercetools.client_secret%'
         scope: '%commercetools.scope%'
+    filesystem: app.filesystem
     orders:
         with_pagination: true
         default_where:

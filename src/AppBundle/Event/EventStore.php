@@ -15,11 +15,11 @@ final class EventStore
      * Is triggered after the export of an order.
      * @var string
      */
-    const POST_ORDER_EXPORT = 'postOrderExport';
+    const POST_ORDER_EXPORT = 'order_export.postOrderExport';
 
     /**
      * Is triggered after the export of an order.
      * @var string
      */
-    const PRE_ORDER_EXPORT = 'preOrderExport';
+    const PRE_ORDER_EXPORT = 'order_export.preOrderExport';
 }
