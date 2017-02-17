@@ -8,7 +8,7 @@ best_it_ct_order_export:
         project: '%commercetools.project%'
         secret: '%commercetools.client_secret%'
         scope: '%commercetools.scope%'
-    filesystem: best_it_ct_order_export.filesystem
+    filesystem: app.export.filesystem
     orders:
         with_pagination: true
         default_where:
@@ -35,11 +35,11 @@ monolog:
 
 oneup_flysystem:
     adapters:
-        best_it_ct_order_export.filesystem.adapter:
+        app.export.filesystem.adapter:
             local:
                 directory: '%kernel.root_dir%/../var/export'
 
     filesystems:
         app:
-            adapter: 'best_it_ct_order_export.filesystem.adapter'
-            alias: 'best_it_ct_order_export.filesystem'
+            adapter: 'app.export.filesystem.adapter'
+            alias: 'app.export.filesystem'

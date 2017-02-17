@@ -4,20 +4,64 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "347269b5dfb44f23ed7ada08b52b7e2c",
+    "content-hash": "2c5c6d625f5a6278c04155b52e3e2b29",
     "packages": [
         {
-            "name": "commercetools/php-sdk",
-            "version": "v1.6.0",
+            "name": "bestit/ct-order-export-bundle",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/commercetools/commercetools-php-sdk.git",
-                "reference": "18bfc72ad5366446a99c365aa885373f0128dc2a"
+                "url": "https://github.com/bestit/ct-order-export-bundle.git",
+                "reference": "637e346277a3a0ba172862b2aed9b8740b4fc7f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/commercetools/commercetools-php-sdk/zipball/18bfc72ad5366446a99c365aa885373f0128dc2a",
-                "reference": "18bfc72ad5366446a99c365aa885373f0128dc2a",
+                "url": "https://api.github.com/repos/bestit/ct-order-export-bundle/zipball/637e346277a3a0ba172862b2aed9b8740b4fc7f5",
+                "reference": "637e346277a3a0ba172862b2aed9b8740b4fc7f5",
+                "shasum": ""
+            },
+            "require": {
+                "commercetools/php-sdk": "^1.6",
+                "oneup/flysystem-bundle": "^1.10",
+                "php": "^7.0",
+                "symfony/monolog-bundle": "^3.0",
+                "symfony/symfony": "^3.2",
+                "symfony/twig-bundle": "^3.2"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "^2.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BestIt\\CtOrderExportBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Björn Lange",
+                    "email": "lange@bestit-online.de"
+                }
+            ],
+            "description": "Symfony 3 Bundle to export commercetools orders based on templates and a virtual file system.",
+            "time": "2017-02-17 07:04:59"
+        },
+        {
+            "name": "commercetools/php-sdk",
+            "version": "v1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/commercetools/commercetools-php-sdk.git",
+                "reference": "82e0b5573129979badffc2222afd8b6533c820e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/commercetools/commercetools-php-sdk/zipball/82e0b5573129979badffc2222afd8b6533c820e9",
+                "reference": "82e0b5573129979badffc2222afd8b6533c820e9",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +130,7 @@
             ],
             "description": "The commercetools PHP SDK  The official PHP Interface to the commercetools eCommerce API",
             "homepage": "https://github.com/commercetools/commercetools-php-sdk",
-            "time": "2017-01-09T13:01:52+00:00"
+            "time": "2017-02-14T08:52:07+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1768,7 +1812,9 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": [],
+    "stability-flags": {
+        "bestit/ct-order-export-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
