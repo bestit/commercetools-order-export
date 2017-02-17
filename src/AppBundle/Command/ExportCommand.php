@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Command;
+namespace BestIt\CtOrderExportBundle\Command;
 
-use AppBundle\ProgressBarFactory;
+use BestIt\CtOrderExportBundle\ProgressBarFactory;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * The export command for orders.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @subpackage Command
  * @version $id$
  */
@@ -36,9 +36,9 @@ class ExportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $orderVisitor = $this->getContainer()->get('app.order_visitor');
+        $orderVisitor = $this->getContainer()->get('best_it_ct_order_export.order_visitor');
 
-        $this->getContainer()->get('app.exporter')->exportOrders(
+        $this->getContainer()->get('best_it_ct_order_export.exporter')->exportOrders(
             $orderVisitor,
             $this->getProgressBar($output, count($orderVisitor))
         );
@@ -61,7 +61,7 @@ class ExportCommand extends ContainerAwareCommand
      */
     private function getProgressBarFactory(): ProgressBarFactory
     {
-        return $this->getContainer()->get('app.progress_bar_factory');
+        return $this->getContainer()->get('best_it_ct_order_export.progress_bar_factory');
     }
 
 }

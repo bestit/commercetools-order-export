@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DependencyInjection;
+namespace BestIt\CtOrderExportBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -8,13 +8,13 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Loads the config for the app.
+ * Loads the config for the best_it_ct_order_export.
  * @author lange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @subpackage DependencyInjection
  * @version $id$
  */
-class AppExtension extends Extension
+class BestItCtOrderExportExtension extends Extension
 {
     /**
      * Loads the bundle config.
@@ -30,37 +30,37 @@ class AppExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $container->setAlias(
-            'app.export.filesystem',
+            'best_it_ct_order_export.export.filesystem',
             $config['filesystem']
         );
 
         $container->setParameter(
-            'app.commercetools.client.id',
+            'best_it_ct_order_export.commercetools.client.id',
             (string) @ $config['commercetools_client']['id']
         );
 
         $container->setParameter(
-            'app.commercetools.client.secret',
+            'best_it_ct_order_export.commercetools.client.secret',
             (string) @ $config['commercetools_client']['secret']
         );
 
         $container->setParameter(
-            'app.commercetools.client.project',
+            'best_it_ct_order_export.commercetools.client.project',
             (string) @ $config['commercetools_client']['project']
         );
 
         $container->setParameter(
-            'app.commercetools.client.scope',
+            'best_it_ct_order_export.commercetools.client.scope',
             (string) @ $config['commercetools_client']['scope']
         );
 
         $container->setParameter(
-            'app.orders.with_pagination',
+            'best_it_ct_order_export.orders.with_pagination',
             (bool) ( $config['orders']['with_pagination'] ?? true )
         );
 
-        $container->setParameter('app.orders.default_where', $config['orders']['default_where'] ?? []);
-        $container->setParameter('app.orders.file_template', $config['orders']['file_template']);
-        $container->setParameter('app.orders.name_scheme', $config['orders']['name_scheme']);
+        $container->setParameter('best_it_ct_order_export.orders.default_where', $config['orders']['default_where'] ?? []);
+        $container->setParameter('best_it_ct_order_export.orders.file_template', $config['orders']['file_template']);
+        $container->setParameter('best_it_ct_order_export.orders.name_scheme', $config['orders']['name_scheme']);
     }
 }

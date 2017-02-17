@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Event;
+namespace BestIt\CtOrderExportBundle\Event;
 
 /**
  * Saving the event names for this bundle.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @subpackage Event
  * @version $id$
  */

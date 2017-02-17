@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace BestIt\CtOrderExportBundle;
 
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Factory for a progress bar.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @version $id$
  */
 class ProgressBarFactory

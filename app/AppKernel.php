@@ -66,7 +66,7 @@ class AppKernel extends Kernel
             new \Symfony\Bundle\MonologBundle\MonologBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
             new \Oneup\FlysystemBundle\OneupFlysystemBundle(),
-            new \AppBundle\AppBundle()
+            new \BestIt\CtOrderExportBundle\BestItCtOrderExportBundle()
         ];
     }
 }

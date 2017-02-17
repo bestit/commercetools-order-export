@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle;
+namespace BestIt\CtOrderExportBundle;
 
 use Commercetools\Core\Model\Order\Order;
 
 /**
  * Generates the name of the order file.
  * @author blange ylange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @version $id$
  */
 class OrderNameGenerator

@@ -1,10 +1,10 @@
 <?php
 
-namespace AppBundle;
+namespace BestIt\CtOrderExportBundle;
 
-use AppBundle\Event\EventStore;
-use AppBundle\Event\FinishOrderExportEvent;
-use AppBundle\Event\PrepareOrderExportEvent;
+use BestIt\CtOrderExportBundle\Event\EventStore;
+use BestIt\CtOrderExportBundle\Event\FinishOrderExportEvent;
+use BestIt\CtOrderExportBundle\Event\PrepareOrderExportEvent;
 use League\Flysystem\FilesystemInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -13,7 +13,7 @@ use Twig_Environment;
 /**
  * Exports the given orders.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @version $id$
  */
 class Exporter

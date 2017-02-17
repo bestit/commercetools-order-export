@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\DependencyInjection;
+namespace BestIt\CtOrderExportBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 /**
  * Configuration class for this bundle.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @subpackage DependencyInjection
  * @version $id$
  */
@@ -22,7 +22,7 @@ class Configuration implements ConfigurationInterface
     {
         $builder = new TreeBuilder();
 
-        $rootNode = $builder->root('app');
+        $rootNode = $builder->root('best_it_ct_order_export');
 
         $rootNode
             ->children()

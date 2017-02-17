@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace BestIt\CtOrderExportBundle;
 
 use Commercetools\Core\Client;
 use Commercetools\Core\Model\Order\OrderCollection;
@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * Iterates over the complete found list.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @version $id$
  */
 class OrderVisitor implements Countable

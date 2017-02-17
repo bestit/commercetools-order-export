@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle/"
+            "BestIt\\CtOrderExportBundle\\": "src/AppBundle/"
         },
         "classmap": [ "./app/AppKernel.php" ]
     }

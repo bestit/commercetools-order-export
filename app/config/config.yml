@@ -2,13 +2,13 @@ imports:
     - { resource: parameters.yml }
     - { resource: services.yml }
 
-app:
+best_it_ct_order_export:
     commercetools_client:
         id: '%commercetools.client_id%'
         project: '%commercetools.project%'
         secret: '%commercetools.client_secret%'
         scope: '%commercetools.scope%'
-    filesystem: app.filesystem
+    filesystem: best_it_ct_order_export.filesystem
     orders:
         with_pagination: true
         default_where:
@@ -35,11 +35,11 @@ monolog:
 
 oneup_flysystem:
     adapters:
-        app.filesystem.adapter:
+        best_it_ct_order_export.filesystem.adapter:
             local:
                 directory: '%kernel.root_dir%/../var/export'
 
     filesystems:
         app:
-            adapter: 'app.filesystem.adapter'
-            alias: 'app.filesystem'
+            adapter: 'best_it_ct_order_export.filesystem.adapter'
+            alias: 'best_it_ct_order_export.filesystem'

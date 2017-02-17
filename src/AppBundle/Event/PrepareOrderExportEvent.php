@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Event;
+namespace BestIt\CtOrderExportBundle\Event;
 
 use Commercetools\Core\Model\Order\Order;
 use Symfony\Component\EventDispatcher\Event;
@@ -8,7 +8,7 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * Event to mark the order as prepared for export.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle\Event
+ * @package BestIt\CtOrderExportBundle\Event
  * @version $id$
  */
 class PrepareOrderExportEvent extends Event

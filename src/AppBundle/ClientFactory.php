@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace BestIt\CtOrderExportBundle;
 
 use Commercetools\Core\Client;
 use Commercetools\Core\Config;
@@ -12,7 +12,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Factory for the commercetools client.
  * @author lange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @subpackage Service
  * @version $id$
  */

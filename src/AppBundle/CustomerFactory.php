@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace BestIt\CtOrderExportBundle;
 
 use Commercetools\Core\Client;
 use Commercetools\Core\Model\Customer\Customer;
@@ -12,7 +12,7 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 /**
  * Loads customers.
  * @author blange <lange@bestit-online.de>
- * @package AppBundle
+ * @package BestIt\CtOrderExportBundle
  * @version $id$
  */
 class CustomerFactory
