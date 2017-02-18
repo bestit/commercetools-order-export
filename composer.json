@@ -19,9 +19,6 @@
         "squizlabs/php_codesniffer": "^2.8"
     },
     "autoload": {
-        "psr-4": {
-            "BestIt\\CtOrderExportBundle\\": "src/AppBundle/"
-        },
         "classmap": [
             "./app/AppKernel.php"
         ]
