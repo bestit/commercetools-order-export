@@ -12,7 +12,8 @@
     "require": {
         "php": "^7.0",
         "symfony/symfony": "^3.2",
-        "bestit/ct-order-export-bundle": "^0.1"
+        "bestit/ct-order-export-bundle": "^0.1",
+        "incenteev/composer-parameter-handler": "^2.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.8"
@@ -21,6 +22,35 @@
         "psr-4": {
             "BestIt\\CtOrderExportBundle\\": "src/AppBundle/"
         },
-        "classmap": [ "./app/AppKernel.php" ]
+        "classmap": [
+            "./app/AppKernel.php"
+        ]
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-bin-dir": "bin",
+        "symfony-var-dir": "var",
+        "symfony-tests-dir": "tests",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml",
+            "env-map": {
+                "commercetools.client_id": "CTP_CLIENT_ID",
+                "commercetools.client_secret": "CTP_CLIENT_SECRET",
+                "commercetools.project": "CTP_PROJECT",
+                "commercetools.scope": "CTP_SCOPE",
+                "secret": "SECRET"
+            }
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ],
+        "warmup": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ]
     }
 }
