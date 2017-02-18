@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c5c6d625f5a6278c04155b52e3e2b29",
+    "content-hash": "3ec4c02b6be51edad87560c3a9d3699a",
     "packages": [
         {
             "name": "bestit/ct-order-export-bundle",
-            "version": "dev-master",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bestit/ct-order-export-bundle.git",
-                "reference": "637e346277a3a0ba172862b2aed9b8740b4fc7f5"
+                "reference": "9347d13be0614bf1de69340bbdc9d4acb12dbb40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bestit/ct-order-export-bundle/zipball/637e346277a3a0ba172862b2aed9b8740b4fc7f5",
-                "reference": "637e346277a3a0ba172862b2aed9b8740b4fc7f5",
+                "url": "https://api.github.com/repos/bestit/ct-order-export-bundle/zipball/9347d13be0614bf1de69340bbdc9d4acb12dbb40",
+                "reference": "9347d13be0614bf1de69340bbdc9d4acb12dbb40",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 }
             ],
             "description": "Symfony 3 Bundle to export commercetools orders based on templates and a virtual file system.",
-            "time": "2017-02-17 07:04:59"
+            "time": "2017-02-18T21:00:40+00:00"
         },
         {
             "name": "commercetools/php-sdk",
@@ -1812,9 +1812,7 @@
     ],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": {
-        "bestit/ct-order-export-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
