@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<order>
-    <datum>{{ order.getCreatedAt().format('d.m.Y H:i:s') }}</datum>
-    <kkdnr>{{ customer.getCustomerNumber() }}</kkdnr>
-    <kknam1>{{ order.getBillingAddress().getSalutation() }} {{ order.getBillingAddress().getTitle() }} {{ order.getBillingAddress().getFirstName() }} {{ order.getBillingAddress().getLastName() }}</kknam1>
-    <ctp-bestellnr>{{ order.getId() }}</ctp-bestellnr>
-    <bestelltxt>Lorem Ipsum</bestelltxt>
-    <va-nr>1</va-nr>
-    <vart>90</vart>
-    <kzab>37</kzab>
+<order id="{{ order.getId() }}">
+    <date>{{ order.getCreatedAt().format('d.m.Y H:i:s') }}</date>
+    <customer>
+        <name>{{ order.getShippingAddress().getFirstName() }} {{ order.getShippingAddress().getLastName() }}</name>
+    </customer>
     <positions>
         {% for no, lineItem in order.getLineItems() %}
             <position>
