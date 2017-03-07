@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a74ccde2cf0a72cbf88d170f2932572",
+    "content-hash": "6e2730ec40f74360d1bec580379b2522",
     "packages": [
         {
             "name": "bestit/ct-order-export-bundle",
-            "version": "0.2.0",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bestit/commercetools-order-export-bundle.git",
-                "reference": "8c3373354c956f3dc499aa4cc66fdcd095515b70"
+                "reference": "1d3a9e8bb1219623ab0b9bf7b565ac48d0410084"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bestit/commercetools-order-export-bundle/zipball/8c3373354c956f3dc499aa4cc66fdcd095515b70",
-                "reference": "8c3373354c956f3dc499aa4cc66fdcd095515b70",
+                "url": "https://api.github.com/repos/bestit/commercetools-order-export-bundle/zipball/1d3a9e8bb1219623ab0b9bf7b565ac48d0410084",
+                "reference": "1d3a9e8bb1219623ab0b9bf7b565ac48d0410084",
                 "shasum": ""
             },
             "require": {
@@ -29,6 +29,7 @@
                 "symfony/twig-bundle": "^3.2"
             },
             "require-dev": {
+                "phpunit/phpunit": "5.5",
                 "squizlabs/php_codesniffer": "^2.8"
             },
             "type": "library",
@@ -48,7 +49,7 @@
                 }
             ],
             "description": "Symfony 3 Bundle to export commercetools orders based on templates and a virtual file system.",
-            "time": "2017-02-19T19:36:02+00:00"
+            "time": "2017-03-07T13:38:51+00:00"
         },
         {
             "name": "commercetools/php-sdk",
