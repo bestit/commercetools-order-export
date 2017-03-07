@@ -14,7 +14,7 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="bestit/commercetools-order-export">
             <directory>tests</directory>
             <directory>src/*Bundle/Tests</directory>
             <directory>src/*/*Bundle/Tests</directory>
